@@ -1,3 +1,4 @@
+//estoque.js
 let estoque = {
     'joao': [
         {'tipo' : 'maca', 'qtd': 1},
@@ -5,17 +6,17 @@ let estoque = {
     ],
     'maria': [
         {'tipo' : 'maca', 'qtd': 2},
-        {'tipo' : 'banana', 'qtd': 4},
+        {'tipo' : 'banana', 'qtd': 4}
     ] 
 };
 
 
 
-function getEstoque(){
+export function getEstoque(){
     return structuredClone(estoque); 
 }
 
-function transacao(origem,destino,tipo,quantidade){
+export function transacao(origem,destino,tipo,quantidade){
     
     if(origem===destino){return;}
     if(destino==="pomar"){
@@ -58,7 +59,7 @@ function transacao(origem,destino,tipo,quantidade){
     monteOrigem.qtd -= qtdReal;
 }
 
-function dePessoaParaPomar(origem,tipo,quantidade){
+export function dePessoaParaPomar(origem,tipo,quantidade){
     const pessoa = estoque[origem];
         for(let i=0; i<pessoa.length;i++){
             const monte = pessoa[i];
@@ -69,7 +70,7 @@ function dePessoaParaPomar(origem,tipo,quantidade){
         }
 }
 
-function dePomarParaPessoa(destino,tipo,quantidade){
+export function dePomarParaPessoa(destino,tipo,quantidade){
     const pessoa = estoque[destino];
         for(let i=0; i<pessoa.length;i++){
             const monte = pessoa[i];
@@ -81,5 +82,3 @@ function dePomarParaPessoa(destino,tipo,quantidade){
         const novoMonte = {'tipo':tipo, 'qtd':Math.max(quantidade,0)};
         pessoa.push(novoMonte);
 }
-
-export{getEstoque, transacao, dePomarParaPessoa};       

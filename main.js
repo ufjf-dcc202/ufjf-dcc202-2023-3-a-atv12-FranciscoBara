@@ -1,3 +1,4 @@
+//main.js
 import { getEstoque, transacao } from "./estoque.js";
 
 
