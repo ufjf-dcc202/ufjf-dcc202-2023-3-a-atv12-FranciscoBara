@@ -2,42 +2,54 @@
 import { getEstoque, transacao } from "./estoque.js";
 
 
-const olJoao = document.querySelector("ol#joao");
-const olMaria = document.querySelector("ol#maria");
+olJoao = document.querySelector("ol#joao");
+olMaria = document.querySelector("ol#maria");
 const olPomar = document.querySelector("ol#pomar");
 
 document.entrada.addEventListener('submit', leFormulario);
+
+
+const olJoao = document.querySelector("#joao");
+const olMaria = document.querySelector("#maria");
+
 atualizaTela();
 
 
 function leFormulario(event) {
 
-    event.preventDefault()
+  event.preventDefault()
    
-    const quantidade = document.entrada.quantidade.valueAsNumber;
-    const fruta = document.entrada.fruta.value;
-    const origem = document.entrada.origem.value;
-    const destino = document.entrada.destino.value;
-
+  const quantidade = document.entrada.quantidade.valueAsNumber;
+const fruta = document.entrada.fruta.value;
+  const origem = document.entrada.origem.value;
+  const destino = document.entrada.destino.value;
+  
 console.log(`${origem} doa ${quantidade} ${fruta} para ${destino}`);
-transacao(origem,destino,fruta,quantidade);
-atualizaTela();
+  transacao(origem,destino,fruta,quantidade);
+  atualizaTela();
 }
 
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('LimparLista').addEventListener('click', () => {
+    limpaEstoque();
+    atualizaTela();
+  });
+});
+
 function atualizaTela(){
-    const estoque= getEstoque();
-    preencheLista(olJoao,estoque.joao);
-    preencheLista(olMaria,estoque.maria);
+  const estoque= getEstoque();
+  preencheLista(olJoao,estoque.joao);
+  preencheLista(olMaria,estoque.maria);
 
     
 }
 
 function preencheLista(lista,estoqueDaPessoa){
-    lista.innerHTML="";
+  lista.innerHTML="";
     for(let i=0;i<estoqueDaPessoa.length;i++){
-        const monte = estoqueDaPessoa[i];
-        const li = document.createElement('li');
-        li.textContent=`${monte.tipo}: ${monte.qtd}`;
-        lista.append(li);
-    }
+      const monte = estoqueDaPessoa[i];
+      const li = document.createElement('li');
+      li.textContent=`${monte.tipo}: ${monte.qtd}`;
+      lista.append(li);
+      }
 }
