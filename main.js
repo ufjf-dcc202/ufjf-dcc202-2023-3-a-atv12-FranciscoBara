@@ -1,55 +1,54 @@
-//main.js
-import { getEstoque, transacao } from "./estoque.js";
+//mainjs
+import { getEstoque, limpaEstoque, transacaoNoEstoque } from "./estoque.js"
+
+document.entrada.addEventListener('submit', leFormulario)
 
 
-olJoao = document.querySelector("ol#joao");
-olMaria = document.querySelector("ol#maria");
-const olPomar = document.querySelector("ol#pomar");
+const olJoao = document.querySelector("#joao")
+const olMaria = document.querySelector("#maria")
 
-document.entrada.addEventListener('submit', leFormulario);
+atualizaTela()
 
+function leFormulario(event){
+    event.preventDefault()
+    
+    const fruta = document.entrada.fruta.value
+    const quantidade = document.entrada.quantidade.valueAsNumber
+    const origem = document.entrada.origem.value
+    const destino = document.entrada.destino.value
+    
+    console.log(`solicitado: ${origem} doa ${quantidade} ${fruta} para ${destino}`)
 
-const olJoao = document.querySelector("#joao");
-const olMaria = document.querySelector("#maria");
-
-atualizaTela();
-
-
-function leFormulario(event) {
-
-  event.preventDefault()
-   
-  const quantidade = document.entrada.quantidade.valueAsNumber;
-const fruta = document.entrada.fruta.value;
-  const origem = document.entrada.origem.value;
-  const destino = document.entrada.destino.value;
-  
-console.log(`${origem} doa ${quantidade} ${fruta} para ${destino}`);
-  transacao(origem,destino,fruta,quantidade);
-  atualizaTela();
+    transacaoNoEstoque(origem, destino, fruta, quantidade)
+    atualizaTela()
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  document.getElementById('LimparLista').addEventListener('click', () => {
-    limpaEstoque();
-    atualizaTela();
-  });
-});
+    document.getElementById('botaoLimparLista').addEventListener('click', () => {
+        limpaEstoque()
+        atualizaTela()
+    })
+})
 
-function atualizaTela(){
-  const estoque= getEstoque();
-  preencheLista(olJoao,estoque.joao);
-  preencheLista(olMaria,estoque.maria);
-
+function atualizaTela() {
+    const estoque = getEstoque()
     
+    document.entrada.fruta.value = "maca"
+    document.entrada.quantidade.value = 1
+   
+    preencheListaPessoa(estoque['joao'], olJoao)
+    preencheListaPessoa(estoque['maria'], olMaria)
 }
 
-function preencheLista(lista,estoqueDaPessoa){
-  lista.innerHTML="";
-    for(let i=0;i<estoqueDaPessoa.length;i++){
-      const monte = estoqueDaPessoa[i];
-      const li = document.createElement('li');
-      li.textContent=`${monte.tipo}: ${monte.qtd}`;
-      lista.append(li);
-      }
+function preencheListaPessoa(pessoa, lista){
+    lista.innerHTML = ""
+
+    if(Array.isArray(pessoa)) {
+        for(let i = 0; i < pessoa.length; i++) {
+            const monte = pessoa[i]
+            const eLi = document.createElement('li')
+            eLi.innerText = `${monte.tipo}: ${monte.quantidade}`
+            lista.append(eLi)
+        }
+    }
 }
